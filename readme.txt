@@ -3,15 +3,13 @@ Contributors: Max Bond
 Tags: q2w3, code insert, code include, ads, header, footer, html, css, javascript, php, widget, shortcode, custom taxonomy, custom post type, custom post type archive, post format
 Requires at least: 3.1
 Tested up to: 5.4.1
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 
 This plugin allows you to insert html, css, javascript and PHP code to public WordPress pages. 
 
 == Description ==
 
 [youtube http://www.youtube.com/watch?v=JPhX8D7xDzo]
-
-For more info visit [plugin homepage](http://www.q2w3.ru/code-insert-manager-wordpress-plugin/)
 
 Areas of the page where you can insert code:
 
@@ -57,6 +55,9 @@ Other options:
 3. Insert options
 
 == Changelog ==
+
+= 2.5.2 =
+* Fixed eror in display_inc() function
 
 = 2.5.1 =
 * Updated plugin core, fixed most php warnings and notices

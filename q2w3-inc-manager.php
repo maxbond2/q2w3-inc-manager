@@ -3,7 +3,7 @@
 Plugin Name: Code Insert Manager (Q2W3 Inc Manager)
 Plugin URI: http://www.q2w3.ru/code-insert-manager-wordpress-plugin/
 Description: This plugin allows you to insert html, css, javascript and PHP code to public wordpress pages.
-Version: 2.5.1
+Version: 2.5.2
 Author: Max Bond
 Author URI: http://www.q2w3.ru/
 */
@@ -716,11 +716,11 @@ class q2w3_inc_manager {
 					
 					if ( defined('Q2W3_PHP_EVAL') && Q2W3_PHP_EVAL === true ) { // allow PHP eval
 
-						$res .= self::code_align(self::php_eval(htmlspecialchars_decode($inc[self::$object->code->col_name], ENT_QUOTES)), $code_align); // htmlspecialchars_decode - php 5.1 function
+						return self::code_align(self::php_eval(htmlspecialchars_decode(self::$object->code->val, ENT_QUOTES)), $code_align); // htmlspecialchars_decode - php 5.1 function
 											
 					} else {
 
-						$res .= self::code_align(htmlspecialchars_decode($inc[self::$object->code->col_name], ENT_QUOTES), $code_align); // htmlspecialchars_decode - php 5.1 function
+						return self::code_align(htmlspecialchars_decode(self::$object->code->val, ENT_QUOTES), $code_align); // htmlspecialchars_decode - php 5.1 function
 
 					}
 
