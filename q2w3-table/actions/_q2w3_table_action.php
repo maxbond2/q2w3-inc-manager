@@ -24,7 +24,7 @@ abstract class _q2w3_table_action {
 
 		$this->plugin_id = $plugin_id;
 		
-		$this->wp_nonce = wp_create_nonce('q2w3_table_get'); // create nonce for get actions
+		$this->wp_nonce = wp_create_nonce('q2w3_table'); // create nonce for get actions
 		
 		$this->action_page = $action_page;
 		
@@ -57,8 +57,22 @@ abstract class _q2w3_table_action {
 	 */
 	public static function action($plugin_id, $object_name) {
 		
-		 
 		
+		
+	}
+
+	public static function ajax() {
+		
+		if ( !check_admin_referer('q2w3_table','wp_nonce') ) wp_die('Security check failed'); 
+
+		$action = $_REQUEST['action'];
+
+		$action::action(q2w3_inc_manager::ID, $_REQUEST['object']);
+		
+		wp_redirect($_SERVER['HTTP_REFERER']);
+				
+		exit();
+
 	}
 	
 }

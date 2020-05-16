@@ -1,9 +1,9 @@
 === Code Insert Manager (Q2W3 Inc Manager) ===
 Contributors: Max Bond
-Tags: q2w3, code insert, code include, ads, header, footer, html, css, javascript, php, widget, shortcode, Russian, English, French, German, Italian, custom taxonomy, custom post type, custom post type archive, post format
+Tags: q2w3, code insert, code include, ads, header, footer, html, css, javascript, php, widget, shortcode, custom taxonomy, custom post type, custom post type archive, post format
 Requires at least: 3.1
-Tested up to: 3.5.1
-Stable tag: 2.3.3
+Tested up to: 5.4.1
+Stable tag: 2.5.1
 
 This plugin allows you to insert html, css, javascript and PHP code to public WordPress pages. 
 
@@ -44,22 +44,11 @@ Other options:
 * Priority number - determines display order of the Inserts placed in the same location.
 * Align - allows you to set horizontal align for inserted code. Useful for aligning Google AdSense blocks.
 
-Supported languages: 
-
-* English
-* Russian
-* French ([Olivier](http://www.vazy.biz/))
-* German ([Oliver Schieche](http://perfect-co.de/))
-* Italian ([Igor](http://blog.justshopping.it))
-
 == Installation ==
 
-1. Check minimal system requirements: WordPress 3.1, PHP 5.2.4
+1. Check minimal system requirements: WordPress 3.1, PHP 5.5
 2. Follow standard WordPress plugin installation procedure
 3. Activate the plugin through the Plugins menu in WordPress
-
-Upgrade from ver 1.x to 2.x Note:
-The following page selectors have been removed: All Posts, All Pages, Category Pages and Tag Pages. Inserts that used them will not work. But don't worry, just recreate "Insert" and "Exclude" rules and they will work again!
 
 == Screenshots ==
 
@@ -67,15 +56,15 @@ The following page selectors have been removed: All Posts, All Pages, Category P
 2. Inserts table
 3. Insert options
 
-== Other Notes ==
-
-
-Q2W3 Plugins:
-
-* [Q2W3 Fixed Widget (Sticky Widget)](http://wordpress.org/extend/plugins/q2w3-fixed-widget/)
-* [Q2W3 Post Order](http://wordpress.org/extend/plugins/q2w3-post-order/)
-
 == Changelog ==
+
+= 2.5.1 =
+* Updated plugin core, fixed most php warnings and notices
+* Added support of PHP7
+* Added standard plugin uninstall script
+* Added feature to make head and footer inserts from the post editor 
+* Removed option to use [include] shortcode in comments
+* Disabled PHP eval by default! To enable PHP eval add `define('Q2W3_PHP_EVAL', true);` in wp_config.php. Use with caution! In multiuser or multisite enviroments you can grant PHP exec rights for non admin users!!!
 
 = 2.3.3 =
 * [Fixed shortcode executing problem](http://wordpress.org/support/topic/code-insert-manager-not-executing-shortcodes) 

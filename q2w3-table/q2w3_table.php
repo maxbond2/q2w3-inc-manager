@@ -288,7 +288,7 @@ class q2w3_table {
 		
 		if ($this->enable_create_new_button) {
 			
-			$create_new_button = '<input type="button" value="'. $this->create_new_button_text .'" class="button-secondary new_include" />';
+			$create_new_button = ''; //'<a href="#" class="button ">'. $this->create_new_button_text .'</a>';
 		
 		}
 
@@ -382,11 +382,11 @@ class q2w3_table {
 		
 		$res .= '<form method="post" action="'. $this->post_handler .'" id="q2w3_includes_table_form">'.PHP_EOL;
 
-		$res .= new q2w3_hidden_input(array('name'=>'wp_nonce', 'value'=>wp_create_nonce('q2w3_table_post')));
+		$res .= new q2w3_hidden_input(array('name'=>'wp_nonce', 'value'=>wp_create_nonce('q2w3_table')));
 				
 		$res .= $table_actions;
 		
-		$res .= '<table class="widefat" cellspacing="0" id="q2w3_includes_table">'.PHP_EOL;
+		$res .= '<table class="wp-list-table widefat fixed striped posts" id="q2w3_includes_table">'.PHP_EOL;
 		
 		$res .= '<thead>'.PHP_EOL;
 		
@@ -465,7 +465,7 @@ class q2w3_table {
 	
 		$res = '<tr>'.PHP_EOL;
 		
-		if ($this->enable_bulk_actions) $res .= '<th scope="col" class="manage-column  check-column"><input type="checkbox" /></th>'.PHP_EOL;
+		if ($this->enable_bulk_actions) $res .= '<td scope="col" class="manage-column column-cb check-column"><input type="checkbox" /></td>'.PHP_EOL;
 		
 		foreach ($columns as $id=>$column) {
 		
@@ -670,7 +670,7 @@ class q2w3_table {
 
 			$res .= $action->html();
 							
-			$res .= new q2w3_hidden_input(array('name'=>'wp_nonce', 'value'=>wp_create_nonce('q2w3_table_post')));
+			$res .= new q2w3_hidden_input(array('name'=>'wp_nonce', 'value'=>wp_create_nonce('q2w3_table')));
 			
 			$res .= new q2w3_hidden_input(array('name'=>'object', 'value'=>get_class($this->object)));
 			

@@ -24,7 +24,7 @@ class q2w3_table_sys_msg {
 	
 		if (!session_id()) @session_start(); 
 	
-		if (key_exists('q2w3_table_sys_msg', $_SESSION) && is_array($_SESSION['q2w3_table_sys_msg'])) {
+		if ( isset($_SESSION['q2w3_table_sys_msg']) && is_array($_SESSION['q2w3_table_sys_msg'])) {
 			
 			$msgs = array_unique($_SESSION['q2w3_table_sys_msg']);
 
@@ -36,6 +36,8 @@ class q2w3_table_sys_msg {
 		
 		}
 			
+		$res = '';
+
 		foreach ($msgs as $msg) {
 			
 			$res .= '<div class="updated fade"><p>'. $msg .'</p></div>'.PHP_EOL; // Standard WP sys msg style

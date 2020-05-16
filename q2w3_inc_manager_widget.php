@@ -1,6 +1,6 @@
 <?php
 
-// Q2W3 Inc Manager Widget class. Extends default WP_Widget class. Used PHP 4 OOP.
+// Q2W3 Inc Manager Widget class. Extends default WP_Widget class. 
 
 class q2w3_inc_manager_widget extends WP_Widget {
  
@@ -37,7 +37,7 @@ class q2w3_inc_manager_widget extends WP_Widget {
      * @param string $hide_from_admin If this param evals to true the code will not be shown for logged in admin 
      * 
      */
-    function q2w3_inc_manager_widget($plugin_id, $plugin_name, $object_id, $widget_id, $widget_admin_title, $widget_public_title, $inc_pages, $exc_pages, $hide_from_admin, $code_align, $code){
+    public function __construct($plugin_id, $plugin_name, $object_id, $widget_id, $widget_admin_title, $widget_public_title, $inc_pages, $exc_pages, $hide_from_admin, $code_align, $code){
         	
     	$this->plugin_id = $plugin_id;
     	
@@ -59,7 +59,7 @@ class q2w3_inc_manager_widget extends WP_Widget {
     	
     	$widget_ops = array('classname' => $widget_id, 'description' => __('Q2W3 Insert Manager Widget', $plugin_id) ); // Widget description
     
-    	$this->WP_Widget($widget_id, $widget_admin_title, $widget_ops); // Widget name is include description
+    	parent::__construct($widget_id, $widget_admin_title, $widget_ops); // Widget name is include description
     	
     }
 
@@ -91,8 +91,8 @@ class q2w3_inc_manager_widget extends WP_Widget {
      */
 	function form($instance){
       
-		echo '<p style="text-align:left;"><a href="plugins.php?page=q2w3-inc-manager&amp;id='. $this->object_id .'">'. __('Settings') .'</a></p>';
-		
+    	echo '<p style="text-align:left;"><a href="plugins.php?page=q2w3-inc-manager&amp;id='. $this->object_id .'">'. __('Settings') .'</a></p>';
+
     }
 
 }

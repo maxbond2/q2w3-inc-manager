@@ -242,7 +242,7 @@ class q2w3_table_func {
 		
 		foreach ($formats_orig as $fkey=>$fname) {
 			
-			$res['post_format_'.$fkey] = __('PF', $plugin_id).': '.$fname;
+			$res['post_format_'.$fkey] = __('PF', q2w3_inc_manager::ID).': '.$fname;
 			
 		}
 		
@@ -280,6 +280,8 @@ class q2w3_table_func {
 	
 		$tags = $wpdb->get_results('SELECT t.term_id, t.name FROM '. $wpdb->terms .' t, '. $wpdb->term_taxonomy ." tt WHERE tt.taxonomy = '$taxonomy' AND tt.term_id = t.term_id AND tt.count > 0 ORDER BY tt.count DESC", ARRAY_N);
 			
+		$output_array = array();
+
 		if (is_array($tags) && !empty($tags)) {
 
 			foreach ($tags as $tag) {

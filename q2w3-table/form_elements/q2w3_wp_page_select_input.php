@@ -27,6 +27,10 @@ class q2w3_wp_page_select_input  extends _q2w3_input {
 			$field_id = false;
 			
 		}
+
+		$saved_values = null;
+
+		$pages = null;
 		
 		if ($this->value) {
 			
@@ -48,7 +52,7 @@ class q2w3_wp_page_select_input  extends _q2w3_input {
 		
 		$res = '<div '. $this->id .'>'.PHP_EOL;
 		
-		$res .= '<div><a href="'. site_url() . '/wp-content/plugins/q2w3-inc-manager/q2w3-table/q2w3_get.php?width=640&amp;height=485&amp;action=q2w3_table_wp_page_select&amp;id='. $field_id . $type .'&amp;wp_nonce='. wp_create_nonce('q2w3_table_get') .'" title="'. __('Select pages', q2w3_inc_manager::ID) .'" class="thickbox" style="text-decoration: none">[...]</a></div>'.PHP_EOL;
+		$res .= '<div><a href="'. admin_url( 'admin-ajax.php' ) . '?width=640&amp;height=485&amp;action=q2w3_table_wp_page_select&amp;id='. $field_id . $type .'&amp;wp_nonce='. wp_create_nonce('q2w3_table') .'" title="'. __('Select pages', q2w3_inc_manager::ID) .'" class="thickbox" style="text-decoration: none">[...]</a></div>'.PHP_EOL;
 		
 		$res .= '<input type="hidden" name="'. $this->name .'" value="'. $saved_values .'"/>';
 		

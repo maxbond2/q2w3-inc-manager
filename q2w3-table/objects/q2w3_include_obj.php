@@ -200,7 +200,7 @@ class q2w3_include_obj extends _q2w3_table_obj {
 		$this->inc_pages->input = new q2w3_wp_page_select_input(array('name'=>$this->input_name($this->inc_pages->col_name), 'id'=>'inc_pages_select', 'type'=>'include')); 
 		$this->inc_pages->help = __('Pages where code CAN BE shown. Hold CTRL key for multiple select or deselect pages. Required field', self::$plugin_id);
 		$this->inc_pages->conv = new q2w3_select_page_conv($this->inc_pages, self::$plugin_id);
-		$this->inc_pages->table_view = false;
+		$this->inc_pages->table_view = true;
 		$this->inc_pages->table_view_change = true;
 		$this->inc_pages->single_view = true;
 		
@@ -210,7 +210,7 @@ class q2w3_include_obj extends _q2w3_table_obj {
 		$this->exc_pages->input = new q2w3_wp_page_select_input(array('name'=>$this->input_name($this->exc_pages->col_name), 'id'=>'exc_pages_select', 'type'=>'exclude')); 
 		$this->exc_pages->help = __('Pages where code CAN NOT be shown. Hold CTRL key for multiple select or deselect pages', self::$plugin_id);
 		$this->exc_pages->conv = new q2w3_select_page_conv($this->exc_pages, self::$plugin_id);
-		$this->exc_pages->table_view = false;
+		$this->exc_pages->table_view = true;
 		$this->exc_pages->table_view_change = true;
 		$this->exc_pages->single_view = true;
 		

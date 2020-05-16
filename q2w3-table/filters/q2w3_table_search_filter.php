@@ -40,7 +40,7 @@ class q2w3_table_search_filter extends _q2w3_table_filter {
 		
 		$res .= $search->html();
 		
-		$res .= new q2w3_hidden_input(array('name'=>'wp_nonce', 'value'=>wp_create_nonce('q2w3_table_post')));
+		$res .= new q2w3_hidden_input(array('name'=>'wp_nonce', 'value'=>wp_create_nonce('q2w3_table')));
 		
 		$res .= '<table>'.PHP_EOL;
 		

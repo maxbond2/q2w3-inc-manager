@@ -109,7 +109,7 @@ abstract class _q2w3_table_obj {
 	 * Saves object data
 	 * 
 	 */
-	public function save() {
+	public function save($show_sys_msg = true) {
 	
 		global $wpdb; // use wpdp object
 						
@@ -119,7 +119,7 @@ abstract class _q2w3_table_obj {
 				
 				if ($wpdb->update($this->table(), $this->values_array(), array($this->id->col_name=>$this->id->val)) !== false) { // ok	
 		
-					new q2w3_table_sys_msg(__('Record updated', self::$plugin_id)); // message to user
+					if ( $show_sys_msg ) new q2w3_table_sys_msg(__('Record updated', self::$plugin_id)); // message to user
 					
 					$this->after_update(); // actions after update
 										
@@ -127,7 +127,7 @@ abstract class _q2w3_table_obj {
 		
 				} else { // error
 					
-					new q2w3_table_sys_msg(__('DB error:', self::$plugin_id).' '.$wpdb->last_error);
+					if ( $show_sys_msg ) new q2w3_table_sys_msg(__('DB error:', self::$plugin_id).' '.$wpdb->last_error);
 					
 					return false;
 					
@@ -141,13 +141,13 @@ abstract class _q2w3_table_obj {
 			
 					$this->after_insert(); // action after insert
 					
-					new q2w3_table_sys_msg(__('Record inserted', self::$plugin_id)); // message to user
+					if ( $show_sys_msg ) new q2w3_table_sys_msg(__('Record inserted', self::$plugin_id)); // message to user
 					
 					return $wpdb->insert_id; // return inserted id
 					
 				} else { // error
 					
-					new q2w3_table_sys_msg(__('DB error:', self::$plugin_id).' '.$wpdb->last_error);
+					if ( $show_sys_msg ) new q2w3_table_sys_msg(__('DB error:', self::$plugin_id).' '.$wpdb->last_error);
 					
 					return false;
 					
@@ -169,7 +169,7 @@ abstract class _q2w3_table_obj {
 	 * Deletes object data from db
 	 * 
 	 */
-	public function delete() {
+	public function delete($show_sys_msg = true) {
 	
 		global $wpdb; // use wpdb object
 	
@@ -179,13 +179,13 @@ abstract class _q2w3_table_obj {
 			
 				$this->after_delete(); // actions after delete
 				
-				new q2w3_table_sys_msg(__('Record(s) deleted', self::$plugin_id)); // msg for user
+				if ( $show_sys_msg ) new q2w3_table_sys_msg(__('Record(s) deleted', self::$plugin_id)); // msg for user
 				
 				return true;
 			
 			} else { // error
 				
-				new q2w3_table_sys_msg(__('DB error:', self::$plugin_id).' '.$wpdb->print_error()); // error msg
+				if ( $show_sys_msg ) new q2w3_table_sys_msg(__('DB error:', self::$plugin_id).' '.$wpdb->print_error()); // error msg
 				
 				return false;
 				
@@ -244,7 +244,15 @@ abstract class _q2w3_table_obj {
 			
 			$data = $wpdb->get_row('SELECT * FROM '. $this->table() .' WHERE id = '.$object_id, ARRAY_A);
 			
-			if (!empty($data)) $this->load_values_from_array($data, $conv_type);
+			if ( !empty($data) ) {
+				
+				$this->load_values_from_array($data, $conv_type);
+
+			} else {
+
+				return false;
+
+			}
 		
 		}
 	
@@ -470,7 +478,7 @@ abstract class _q2w3_table_obj {
 	 */
 	protected function get_saved_input() {
 		
-		if (key_exists('id', $_GET) && $_GET['id'] == q2w3_table::NEW_MARKER && is_array($_SESSION['q2w3_table_tmp_data']) && !empty($_SESSION['q2w3_table_tmp_data'])) {
+		if (key_exists('id', $_GET) && $_GET['id'] == q2w3_table::NEW_MARKER && isset($_SESSION['q2w3_table_tmp_data']) && is_array($_SESSION['q2w3_table_tmp_data']) && !empty($_SESSION['q2w3_table_tmp_data'])) {
 		
 			$this->load_values_from_array($_SESSION['q2w3_table_tmp_data'], 'db2php');
 		

@@ -3,12 +3,10 @@
 Plugin Name: Code Insert Manager (Q2W3 Inc Manager)
 Plugin URI: http://www.q2w3.ru/code-insert-manager-wordpress-plugin/
 Description: This plugin allows you to insert html, css, javascript and PHP code to public wordpress pages.
-Version: 2.3.3
+Version: 2.5.1
 Author: Max Bond
 Author URI: http://www.q2w3.ru/
 */
-
-// TODO shortcodes execution without php
 
 if (defined('ABSPATH')) { // makes shure that the following functions will be run inside WordPress only
 
@@ -28,23 +26,25 @@ if (defined('ABSPATH')) { // makes shure that the following functions will be ru
 	
 	add_shortcode('INCLUDE', array( 'q2w3_inc_manager', 'shortcode_incs' ));	
 	
-	if (is_admin()) { // admin hooks
+	if ( is_admin() ) { // admin hooks
 		
 		q2w3_inc_manager::load_language(); 
 		
 		add_action('admin_menu', array( 'q2w3_inc_manager', 'reg_menu' ));
+				
+		add_action('add_meta_boxes', array( 'q2w3_inc_manager', 'add_meta_boxes' ));
+
+		add_action('wp_insert_post', array( 'q2w3_inc_manager', 'save_meta_boxes' ), 10, 3 );
 		
-		add_filter('plugin_action_links_'.plugin_basename(__FILE__), array( 'q2w3_inc_manager','reg_control_links' ));  
-		
-		add_filter('set-screen-option', array( 'q2w3_inc_manager', 'screen_options_save' ), 10, 3);
+		//add_filter('set-screen-option', array( 'q2w3_inc_manager', 'screen_options_save' ), 10, 3);
 					
 	} else { // public hooks
 		
-		add_action('wp_head', array( 'q2w3_inc_manager', 'cur_page' ));
+		add_action('wp_head', array( 'q2w3_inc_manager', 'cur_page' ), 1);
 		
-		add_action('wp_head', array( 'q2w3_inc_manager', 'header_incs' ));
+		add_action('wp_head', array( 'q2w3_inc_manager', 'header_incs' ), 99);
 	
-		add_action('wp_footer', array( 'q2w3_inc_manager', 'footer_incs' ));
+		add_action('wp_footer', array( 'q2w3_inc_manager', 'footer_incs' ), 99);
 		
 		add_action('loop_start', array( 'q2w3_inc_manager', 'b_page_content_incs' ));
 	
@@ -55,8 +55,6 @@ if (defined('ABSPATH')) { // makes shure that the following functions will be ru
 		add_filter('the_content', array( 'q2w3_inc_manager', 'a_post_excerpt_incs' ));
 	
 		add_filter('the_content', array( 'q2w3_inc_manager', 'a_post_content_incs' ));
-		
-		add_filter( 'comment_text', array( 'q2w3_inc_manager', 'parse_shortcodes_comment' ));
 		
 	}
 	
@@ -81,7 +79,7 @@ class q2w3_inc_manager {
 	const LANG_DIR = 'languages'; // Plugin languages folder
 		
 		
-	const PHP_VER = '5.2.0'; // Minimum PHP version
+	const PHP_VER = '5.5.0'; // Minimum PHP version
 	
 	const WP_VER = '3.1'; // Minimum WordPress version
 	
@@ -100,7 +98,7 @@ class q2w3_inc_manager {
 			
 	public static $default_post_types = array('post', 'page');
 			
-	public static $restricted_post_types = array('attachment', 'revision', 'nav_menu_item');
+	public static $restricted_post_types = array('attachment', 'revision', 'nav_menu_item', 'oembed_cache', 'user_request', 'customize_changeset', 'custom_css', 'tablepress_table');
 	
 	public static $default_taxonomies = array('category', 'post_tag');
 		
@@ -139,13 +137,13 @@ class q2w3_inc_manager {
 			
 			$inc_obj = self::object();
 			
-			if (MULTISITE == true) $inc_obj->create_table(); // create tables for wp network sites
+			if ( MULTISITE == true ) $inc_obj->create_table(); // create tables for wp network sites
 	
 			$table = new q2w3_table(self::ID, $inc_obj);
 			
-			$table->get_handler = WP_PLUGIN_URL.'/q2w3-inc-manager/q2w3-table/q2w3_get.php';
+			$table->get_handler = admin_url( 'admin-ajax.php' ); 
 	
-			$table->post_handler = WP_PLUGIN_URL.'/q2w3-inc-manager/q2w3-table/q2w3_post.php';
+			$table->post_handler = admin_url( 'admin-ajax.php' ); 
 	
 			$table->reg_filter(new q2w3_table_status_filter(self::ID)); // register status filter
 			
@@ -168,7 +166,17 @@ class q2w3_inc_manager {
 		return self::$table; 
 		
 	}
+
+	/**
+	 * Returns URL of the plugin directory
+	 * 
+	 * @return string   
+	 */
+	public static function plugin_url() {
 	
+		return WP_PLUGIN_URL.'/'.dirname(plugin_basename(__FILE__));
+	
+	}	
 	
 	/**
 	 * Activate plugin.
@@ -239,7 +247,7 @@ class q2w3_inc_manager {
 		
 		$access_level = 'activate_plugins'; // admins and superadmins only
 	
-		add_menu_page('Code Insert', __('Code Insert', self::ID), $access_level, 'q2w3-inc-manager', array(__CLASS__,'main_page'), WP_PLUGIN_URL.'/q2w3-inc-manager/q2w3-table/menu-icon.gif');
+		add_menu_page('Code Insert', __('Code Insert', self::ID), $access_level, 'q2w3-inc-manager', array(__CLASS__,'main_page'), 'dashicons-welcome-widgets-menus');
 		
 		self::$plugin_page = add_submenu_page('q2w3-inc-manager', self::NAME, __('Inserts', self::ID), $access_level, 'q2w3-inc-manager', array(__CLASS__,'main_page'));
 		
@@ -247,7 +255,7 @@ class q2w3_inc_manager {
 		
 		add_submenu_page('q2w3-inc-manager', self::NAME, __('Settings', self::ID), $access_level, 'q2w3-inc-manager-settings', array(__CLASS__,'settings_page'));
 		
-		add_action('manage_'. self::$plugin_page .'_columns', array(__CLASS__, 'screen_options'));
+		//add_action('manage_'. self::$plugin_page .'_columns', array(__CLASS__, 'screen_options'));
 		
 		add_action('contextual_help_list', array(__CLASS__, 'help')); // get_current_screen()->add_help_tab()
 		
@@ -296,35 +304,7 @@ class q2w3_inc_manager {
 		return $help_content;
 		
 	}
-	
-	/**
-	 * Modifies plugin control links
-	 * 
-	 * @param $links
-	 * @return links array
-	 */
-	public static function reg_control_links($links) {
-	
-		if (array_key_exists('deactivate',$links)) {
-			
-			$index = 'deactivate'; // compatibility with WP 3.0
-			
-		} else {
-			
-			$index = 0;
-			
-		}
 		
-		$links[$index] = '<a href="admin.php?page=q2w3-inc-manager&amp;deactivate=true">'. __('Deactivate') .'</a>'; // changes default plugin deactivation link // now it points to my custom plugin deactivation page
-		
-		//$settings_link = '<a href="options-general.php?page='.plugin_basename(__FILE__).'">'. __('Settings') .'</a>'; // Direct link to plugin settings page
-		
-		//array_unshift($links,$settings_link); // adds settings link before other links
-		
-		return $links;
-	
-	}
-	
 	/**
 	 * Loads plugin language file
 	 * 
@@ -343,35 +323,27 @@ class q2w3_inc_manager {
 	
 	}
 	
-	
-	
 	/**
 	 * Prints includes table page
 	 *  
 	 */
 	public static function main_page() {
 	
-		if (key_exists('deactivate', $_GET) && $_GET['deactivate'] == 'true') {
+		self::table();
+		
+		$res = '<div class="wrap">'.PHP_EOL;
+		
+		$res .= '<h1 class="wp-heading-inline">'. self::NAME .'</h1><a href="?page=q2w3-inc-manager&amp;id=_new_" class="page-title-action">'. __('Add New', self::ID) .'</a>'.PHP_EOL;
 			
-			self::deactivate_page(); // load deactivation page
-			
-		} else {
-			
-			self::table();
-			
-			$res = '<div class="wrap">'.PHP_EOL;
-			
-			$res .= '<h2>'. self::NAME .'</h2>'.PHP_EOL;
-					
-			$res .= self::$table->html();
-			
-			$res .= '<ul class="subsubsub"><li>'. __('Need help? Visit', self::ID) .' <a href="http://www.q2w3.ru/code-insert-manager-wordpress-plugin/">'. __('Plugin Homepage', self::ID) .'</a></li></ul>'.PHP_EOL;
-			
-			$res .= '</div><!--wrap-->'.PHP_EOL;
-			
-			echo $res; // output
-			
-		}
+		$res .= '<hr class="wp-header-end">';
+
+		$res .= self::$table->html();
+		
+		//$res .= '<ul class="subsubsub"><li>'. __('Need help? Visit', self::ID) .' <a href="http://www.q2w3.ru/code-insert-manager-wordpress-plugin/">'. __('Plugin Homepage', self::ID) .'</a></li></ul>'.PHP_EOL;
+		
+		$res .= '</div><!--wrap-->'.PHP_EOL;
+		
+		echo $res; // output
 		
 	}
 	
@@ -399,9 +371,6 @@ class q2w3_inc_manager {
 		
 		$res .= '<br/>'.PHP_EOL;
 		
-		// Shortcodes in comments option
-		
-		$res .= '<input type="checkbox" name="'. self::ID.'[shortcodes_in_comments]" '. checked($options['shortcodes_in_comments'], 'on', false) .' /> '. __('Enable shortcodes in comments. This option affects not all shortcodes, only [include] shortcode used by Code Insert Manager', self::ID).PHP_EOL;
 		
 		// Post types
 						
@@ -429,13 +398,17 @@ class q2w3_inc_manager {
 				
 				$res .= '<div class="parent_checkbox">';
 				
-				$res .= '<input type="checkbox" name="'. self::ID.'[post_types]['. $post_type->name .'][enable]" '. checked($options['post_types'][$post_type->name]['enable'], 'on', false) . $disabled .' /> <strong>'. $post_type->labels->name .'</strong> ('. $post_type->name .') <br/>';
+				$res .= '<input type="checkbox" name="'. self::ID.'[post_types]['. $post_type->name .'][enable]" '. checked(@$options['post_types'][$post_type->name]['enable'], 'on', false) . $disabled .' /> <strong>'. $post_type->labels->name .'</strong> ('. $post_type->name .') <br/>';
 				
 				$res .= '</div>'.PHP_EOL;
 				
 				$res .= '<div class="child_checkbox" style="margin-left: 20px">';
 				
-				$res .= '<input type="checkbox" name="'. self::ID.'[post_types]['. $post_type->name .'][expand]" '. checked($options['post_types'][$post_type->name]['expand'], 'on', false) .' /> '. __('Expand', self::ID);
+				$res .= '<input type="checkbox" name="'. self::ID.'[post_types]['. $post_type->name .'][expand]" '. checked(@$options['post_types'][$post_type->name]['expand'], 'on', false) .' /> '. __('Expand', self::ID);
+
+				$res .= '<br/><input type="checkbox" name="'. self::ID.'[post_types]['. $post_type->name .'][metabox-header]" '. checked(@$options['post_types'][$post_type->name]['metabox-header'], 'on', false) .' /> '. __('Add metabox for page head inserts', self::ID);
+
+				$res .= '<br/><input type="checkbox" name="'. self::ID.'[post_types]['. $post_type->name .'][metabox-footer]" '. checked(@$options['post_types'][$post_type->name]['metabox-footer'], 'on', false) .' /> '. __('Add metabox for page footer inserts', self::ID);
 
 				$res .= '</div>'.PHP_EOL;
 				
@@ -455,7 +428,7 @@ class q2w3_inc_manager {
 				
 		$res .= '<div class="parent_checkbox">';
 				
-		$res .= '<input type="checkbox" name="'. self::ID.'[taxonomies][post_format][enable]" '. checked($options['taxonomies']['post_format']['enable'], 'on', false) .' /> <strong>'. __('Post Formats') .'</strong> (post_format)';
+		$res .= '<input type="checkbox" name="'. self::ID.'[taxonomies][post_format][enable]" '. checked(@$options['taxonomies']['post_format']['enable'], 'on', false) .' /> <strong>'. __('Post Formats') .'</strong> (post_format)';
 				
 		$res .= '</div>'.PHP_EOL;
 				
@@ -489,13 +462,13 @@ class q2w3_inc_manager {
 				
 				$res .= '<div class="parent_checkbox">';
 				
-				$res .= '<input type="checkbox" name="'. self::ID .'[taxonomies]['. $taxonomy->name .'][enable]" '. checked($options['taxonomies'][$taxonomy->name]['enable'], 'on', false) . $disabled .' /> <strong>'. $taxonomy->labels->name .'</strong> ('. $taxonomy->name .')';
+				$res .= '<input type="checkbox" name="'. self::ID .'[taxonomies]['. $taxonomy->name .'][enable]" '. checked(@$options['taxonomies'][$taxonomy->name]['enable'], 'on', false) . $disabled .' /> <strong>'. $taxonomy->labels->name .'</strong> ('. $taxonomy->name .')';
 				
 				$res .= '</div>'.PHP_EOL;
 				
 				$res .= '<div class="child_checkbox" style="margin-left: 20px">';
 				
-				$res .= '<input type="checkbox" name="'. self::ID .'[taxonomies]['. $taxonomy->name .'][expand]" '. checked($options['taxonomies'][$taxonomy->name]['expand'], 'on', false) .' /> '. __('Expand', self::ID);
+				$res .= '<input type="checkbox" name="'. self::ID .'[taxonomies]['. $taxonomy->name .'][expand]" '. checked(@$options['taxonomies'][$taxonomy->name]['expand'], 'on', false) .' /> '. __('Expand', self::ID);
 
 				$res .= '</div>'.PHP_EOL;
 				
@@ -552,90 +525,7 @@ class q2w3_inc_manager {
 		echo $res; // output
 		
 	}
-	
-	/**
-	 * Output html of the plugin deactivation page
-	 * 
-	 */
-	protected static function deactivate_page() {
-		
-		//$action_link = get_option('siteurl').'/wp-admin/admin.php';
-		
-		$action_link = plugins_url().'/q2w3-inc-manager/q2w3-table/q2w3_post.php';
-		
-		$res = '<div class="wrap">'.PHP_EOL;
-		
-		$res .= '<h2>'. self::NAME .' &raquo; '. __('Deactivation', self::ID) .'</h2>'.PHP_EOL;
-		
-		$res .= '<br/><form method="post" action="'. $action_link .'">'.PHP_EOL;
 			
-		$res .= '<input type="hidden" name="page" value="'. $_GET['page'] .'"/>'.PHP_EOL;
-	
-		$res .= '<input type="hidden" name="deactivate" value="deactivate"/>'.PHP_EOL;
-					
-		$res .= '<input type="hidden" name="wp_nonce" value="'. wp_create_nonce('q2w3_table_post') .'"/>'.PHP_EOL;
-						
-		$res .= '<input type="submit" value="'. __('Deactivate plugin', self::ID) .'" class="button-secondary" /><br/><br/>';
-			
-		$res .= '</form>'.PHP_EOL;
-			
-			
-		$res .= '<form method="post" action="'. $action_link .'" id="deactivate_and_clean">'.PHP_EOL;
-			
-		$res .= '<input type="hidden" name="page" value="'. $_GET['page'] .'"/>'.PHP_EOL;
-	
-		$res .= '<input type="hidden" name="deactivate" value="deactivate_and_clean"/>'.PHP_EOL;
-					
-		$res .= '<input type="hidden" name="wp_nonce" value="'. wp_create_nonce('q2w3_table_post') .'"/>'.PHP_EOL;
-			
-		$res .= '<input type="submit" value="'. __('Deactivate plugin and delete all settings from database', self::ID) .'" class="button-secondary" />';
-			
-		$res .= '</form>'.PHP_EOL;
-		
-		$res .= '<script type="text/javascript">jQuery("#deactivate_and_clean").submit(function(){return confirm("'. __('Deactivate plugin and delete all settings from database', self::ID) .'?")})</script>'.PHP_EOL;
-		
-		$res .= '</div><!--wrap-->'.PHP_EOL;
-		
-		echo $res;
-		
-	}
-	
-	public static function deactivation() {
-		
-		if (isset($_POST['deactivate']) && $_POST['deactivate'] == 'deactivate' || $_POST['deactivate'] == 'deactivate_and_clean') { // process deactivation options
-				
-			global $wpdb;
-			
-			require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-			
-			$redirect_url = get_option('siteurl').'/wp-admin/plugins.php?deactivate=true';
-			
-			if ($_POST['deactivate'] == 'deactivate') { // simple deactivation
-	
-				deactivate_plugins(plugin_basename(__FILE__)); 
-				
-				wp_redirect($redirect_url);
-								
-			} elseif ($_POST['deactivate'] == 'deactivate_and_clean') { // advanced deactivation (delete tables and settings)
-				
-				self::object();
-				
-				deactivate_plugins(plugin_basename(__FILE__)); // deactivate plugin
-	
-				$wpdb->query('DELETE FROM '. $wpdb->options ." WHERE option_name LIKE '%q2w3_inc_manager%'"); // delete all plugin entries in options table
-				
-				$wpdb->query('DELETE FROM '. $wpdb->usermeta ." WHERE meta_key = '". q2w3_table_func::safe_plugin_id(self::ID)."_table_settings'"); // delete all plugin entries in usermeta table
-				
-				$wpdb->query('DROP TABLE IF EXISTS '.self::$object->table()); // delete includes table
-				
-				wp_redirect($redirect_url);
-								
-			}
-							
-		} 
-		
-	}
-	
 	/**
 	 * Prints code of all active header includes 
 	 * 
@@ -823,9 +713,17 @@ class q2w3_inc_manager {
 			if (self::check_visibility($inc_pages, $exc_pages, $hide_from)) {
 					
 				if (self::$object->status->val == q2w3_include_obj::STATUS_ACTIVE) {
-						
-					return self::code_align(self::php_eval(htmlspecialchars_decode(self::$object->code->val, ENT_QUOTES)), $code_align);
 					
+					if ( defined('Q2W3_PHP_EVAL') && Q2W3_PHP_EVAL === true ) { // allow PHP eval
+
+						$res .= self::code_align(self::php_eval(htmlspecialchars_decode($inc[self::$object->code->col_name], ENT_QUOTES)), $code_align); // htmlspecialchars_decode - php 5.1 function
+											
+					} else {
+
+						$res .= self::code_align(htmlspecialchars_decode($inc[self::$object->code->col_name], ENT_QUOTES), $code_align); // htmlspecialchars_decode - php 5.1 function
+
+					}
+
 				}
 								
 			} 
@@ -866,8 +764,16 @@ class q2w3_inc_manager {
 				
 				if (self::check_visibility($inc_pages, $exc_pages, $hide_from)) {
 					
-					$res .= self::code_align(self::php_eval(htmlspecialchars_decode($inc[self::$object->code->col_name], ENT_QUOTES)), $code_align); // htmlspecialchars_decode - php 5.1 function
-								
+					if ( defined('Q2W3_PHP_EVAL') && Q2W3_PHP_EVAL === true ) { // allow PHP eval
+
+						$res .= self::code_align(self::php_eval(htmlspecialchars_decode($inc[self::$object->code->col_name], ENT_QUOTES)), $code_align); // htmlspecialchars_decode - php 5.1 function
+											
+					} else {
+						
+						$res .= self::code_align(htmlspecialchars_decode($inc[self::$object->code->col_name], ENT_QUOTES), $code_align); // htmlspecialchars_decode - php 5.1 function
+						
+					}
+
 				}
 		
 			}
@@ -888,13 +794,25 @@ class q2w3_inc_manager {
 		
 		global $wpdb;
 		
-		$res = $wpdb->get_results('SELECT * FROM '. self::$object->table() .'  WHERE '. self::$object->status->col_name .' = '. q2w3_include_obj::STATUS_ACTIVE .' AND ' . self::$object->location->col_name .' = '. $location .' ORDER BY '. self::$object->priority->col_name .','. self::$object->id->col_name, ARRAY_A);
+		static $res = NULL;
 		
-		if (is_array($res)) {
+		if ( ! $res ) { // get all active includes in one query
+		
+			$includes = $wpdb->get_results('SELECT * FROM '. self::$object->table() .'  WHERE '. self::$object->status->col_name .' = '. q2w3_include_obj::STATUS_ACTIVE .' ORDER BY '. self::$object->location->col_name .', '. self::$object->priority->col_name .','. self::$object->id->col_name, ARRAY_A);
+			
+			if ( is_array($includes) ) foreach ( $includes as $inc ) {
+					
+				$res[$inc[self::$object->location->col_name]][] = $inc;
+						
+			}
+		
+		}
+				
+		if (isset($res[$location]) && is_array($res[$location])) {
 						
 			$output = array();
 			
-			foreach ($res as $inc_data) {
+			foreach ($res[$location] as $inc_data) {
 				
 				self::$object->load_values_from_array($inc_data, 'db2php');
 				
@@ -916,8 +834,6 @@ class q2w3_inc_manager {
 		
 	/**
 	 * Check visibility parameters
-	 * 
-	 * Method must be public!
 	 * 
 	 * @param array $inc_pages Array of pages where code can be shown
 	 * @param array $exc_pages Array of pages where code cannot be shown
@@ -946,6 +862,8 @@ class q2w3_inc_manager {
 				
 					foreach($hide_from_role as $role) {
 					
+						//$role = $user->translate_level_to_cap($role);
+
 						if ($user->has_cap($role)) return false;
 					
 					}
@@ -1141,99 +1059,152 @@ class q2w3_inc_manager {
 		return ob_get_clean();
 		
 	}
-	
-	public static function parse_shortcodes_comment( $content ) {
+
+	public static function add_meta_boxes() {
+
+		if ( ! current_user_can('edit_theme_options') ) return false;
+
+		$options = get_option(self::ID);	
 		
-		static $options = '';
-		
-		if (!$options) $options = get_option(self::ID);
-		
-		if ($options['shortcodes_in_comments']) {
-		
-			return self::shortcode_hack( $content, array( __CLASS__, 'shortcode_incs' ) );
-		
-		} else {
-			
-			return $content;
-			
-		}	
-			
-	}
-	
-	/**
-	 * Returns URL of the plugin directory
-	 * 
-	 * @return string   
-	 */
-	public static function plugin_url() {
-	
-		return WP_PLUGIN_URL.'/'.dirname(plugin_basename(__FILE__));
-	
-	}
-	
-	// Shortcodes hack (to use shortcodes in comments)
-	
-	// A filter function that runs do_shortcode() but only with this plugin's shortcodes
-	public static function shortcode_hack( $content, $callback ) {
-		global $shortcode_tags;
+		if ( ! $options ) $options = self::$default_options;
 
-		$shortcodes = array( 'include', 'INCLUDE');
-		
-		// Backup current registered shortcodes and clear them all out
-		$orig_shortcode_tags = $shortcode_tags;
-		remove_all_shortcodes();
+		if ( ! isset($options['post_types']) ) return false;
 
-		// Register all of this plugin's shortcodes
-		foreach ( $shortcodes as $shortcode )
-			add_shortcode( $shortcode, $callback );
+		if ( is_array($options['post_types']) ) foreach ( $options['post_types'] as $post_type => $post_type_options ) {
 
-		// Do the shortcodes (only this plugins's are registered)
-		$content = self::do_shortcode_keep_escaped_tags( $content );
+			if ( isset($post_type_options['metabox-header']) && $post_type_options['metabox-header'] ) {
 
-		// Put the original shortcodes back
-		$shortcode_tags = $orig_shortcode_tags;
+				add_meta_box( self::ID.'-metabox-header', __('Code in ', self::ID) .'wp_head', array( __CLASS__, 'meta_box_header' ), $post_type, 'normal', 'low' );
 
-		return $content;
-	}
+			}
 
+			if ( isset($post_type_options['metabox-footer']) && $post_type_options['metabox-footer'] ) {
 
-	// This is a clone of do_shortcode() that uses a different callback function
-	// The new callback function will keep escaped tags escaped, i.e. [[foo]]
-	// Up to date as of r18324 (3.2)
-	public static function do_shortcode_keep_escaped_tags( $content ) {
-		global $shortcode_tags;
+				add_meta_box( self::ID.'-metabox-footer', __('Code in ', self::ID) .'wp_footer', array( __CLASS__, 'meta_box_footer' ), $post_type, 'normal', 'low' );
 
-		if (empty($shortcode_tags) || !is_array($shortcode_tags))
-			return $content;
+			}
 
-		$pattern = get_shortcode_regex();
-		return preg_replace_callback('/'.$pattern.'/s', array( __CLASS__, 'do_shortcode_tag_keep_escaped_tags' ), $content);
-	}
-
-
-	// Callback for above do_shortcode_keep_escaped_tags() function
-	// It's a clone of core's do_shortcode_tag() function with a modification to the escaped shortcode return
-	// Up to date as of r18324 (3.2)
-	public static function do_shortcode_tag_keep_escaped_tags( $m ) {
-		global $shortcode_tags;
-
-		// allow [[foo]] syntax for escaping a tag
-		if ( $m[1] == '[' && $m[6] == ']' ) {
-			return $m[0]; // This line was modified for this plugin (no substr call)
 		}
 
-		$tag = $m[2];
-		$attr = shortcode_parse_atts( $m[3] );
-
-		if ( isset( $m[5] ) ) {
-			// enclosing tag - extra parameter
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
-		} else {
-			// self-closing tag
-			return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, NULL,  $tag ) . $m[6];
-		}
 	}
+
+	public static function meta_box_header() {
+
+		self::meta_box(q2w3_include_obj::LOC_HEADER);
+
+	}
+	
+	public static function meta_box_footer() {
+
+		self::meta_box(q2w3_include_obj::LOC_FOOTER);
+
+	}
+
+	protected static function meta_box($location) {
+
+		global $post;
 		
+		$include_id = get_post_meta($post->ID, self::ID.'-'.$location, true);
+		
+		$status = q2w3_include_obj::STATUS_DISABLED;
+
+		$code = null;
+
+		if ( $include_id > 0 ) {
+
+			$object = new q2w3_include_obj(self::ID);
+
+			$res = $object->load_values_from_db($include_id, 'db2php');
+
+			if ( $res === false ) {
+
+				delete_post_meta($post->ID, self::ID.'-'.$location);
+
+				$include_id = null;
+
+			} else {
+
+				$status = $object->status->val;
+
+				$code = $object->code->val;
+
+			}
+
+		}
+
+		if ( ! $include_id ) $include_id = q2w3_table::NEW_MARKER;
+
+
+		echo '<input type="hidden" name="'. self::ID .'['. $location .'][id]" value="'. $include_id .'"/>';
+		
+		echo '<p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary button-large" value="Обновить"></p>';
+
+		echo '<p><select name="'. self::ID .'['. $location .'][status]">';
+				
+			echo '<option value="'. q2w3_include_obj::STATUS_ACTIVE .'" '. selected(q2w3_include_obj::STATUS_ACTIVE, $status, false) .'>'. __('Active', self::ID) .'</option>';
+			
+			echo '<option value="'. q2w3_include_obj::STATUS_DISABLED .'" '. selected(q2w3_include_obj::STATUS_DISABLED, $status, false) .'>'. __('Disabled', self::ID) .'</option>';
+			
+		echo '</select></p>';
+		
+		echo '<input type="hidden" name="'. self::ID .'['. $location .'][inc_pages]" value="'. $post->post_type .'_'. $post->ID .'"/>';
+
+		echo '<textarea name="'. self::ID .'['. $location .'][code]" rows="5" class="large-text code" placeholder="'. __('Input code', self::ID) .'">'. $code .'</textarea>';
+
+	}
+
+	public static function save_meta_boxes($post_id, $post, $update) {
+
+		if ( ! current_user_can('edit_theme_options') ) return false;
+
+		if ( !( isset($_POST[self::ID]) && is_array($_POST[self::ID]) ) ) return false;
+		
+		foreach ( $_POST[self::ID] as $location => $propertie ) {
+
+			if ( isset($propertie['code']) && ! trim($propertie['code']) && $propertie['id'] == q2w3_table::NEW_MARKER ) continue;
+			
+			$object = new q2w3_include_obj(self::ID);
+
+			$show_sys_msg = false;
+
+			if ( isset($propertie['code']) && trim($propertie['code']) ) { // save include
+					
+				$propertie['description'] = $post->post_title;
+
+				$propertie['location'] = $location;
+
+				$object->load_values_from_array($propertie, 'php2db');
+				
+				$include_id = $object->save($show_sys_msg);
+
+				if ( $include_id ) {
+
+					if ( $propertie['id'] != q2w3_table::NEW_MARKER ) $include_id = $propertie['id'];
+
+					update_post_meta($post_id, self::ID.'-'.$location, $include_id);
+
+				}
+
+			} elseif ( $propertie['id'] != q2w3_table::NEW_MARKER ) { // delete include
+
+				$include_id = (int)$propertie['id'];
+
+				if ( $include_id > 0 ) {
+				
+					$object->id->val = $include_id;
+
+					if ( $object->delete($show_sys_msg) ) {
+
+						delete_post_meta($include_id, self::ID.'-'.$location);
+
+					}
+
+				}
+
+			} 
+		
+		}
+
+	}
+			
 }
-
-?>

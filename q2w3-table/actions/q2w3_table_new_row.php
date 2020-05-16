@@ -23,7 +23,7 @@ class q2w3_table_new_row extends _q2w3_table_action {
 		$object->load_values_from_array($_POST['propertie'], 'php2db');
 		
 		$insert_id = $object->save();
-	
+			
 		if ($insert_id) {
 			
 			q2w3_table_func::change_referer(q2w3_table::NEW_MARKER, $insert_id);
@@ -31,7 +31,7 @@ class q2w3_table_new_row extends _q2w3_table_action {
 		}		
 		
 	}
-	
+		
 }
 
 ?>
