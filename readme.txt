@@ -3,7 +3,7 @@ Contributors: Max Bond
 Tags: q2w3, code insert, code include, ads, header, footer, html, css, javascript, php, widget, shortcode, custom taxonomy, custom post type, custom post type archive, post format
 Requires at least: 3.1
 Tested up to: 5.4.1
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 
 This plugin allows you to insert html, css, javascript and PHP code to public WordPress pages. 
 
@@ -55,6 +55,9 @@ Other options:
 3. Insert options
 
 == Changelog ==
+
+=2.5.3=
+* Added `wp_block` post type to restricted post types
 
 = 2.5.2 =
 * Fixed error in display_inc() function
