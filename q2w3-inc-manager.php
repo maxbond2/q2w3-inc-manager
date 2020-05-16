@@ -8,6 +8,8 @@ Author: Max Bond
 Author URI: http://www.q2w3.ru/
 */
 
+if ( ! defined('Q2W3_PHP_EVAL') ) define ('Q2W3_PHP_EVAL', false);
+
 if (defined('ABSPATH')) { // makes shure that the following functions will be run inside WordPress only
 
 	require_once 'q2w3-table/q2w3_table_func.php';
@@ -79,7 +81,7 @@ class q2w3_inc_manager {
 	const LANG_DIR = 'languages'; // Plugin languages folder
 		
 		
-	const PHP_VER = '5.5.0'; // Minimum PHP version
+	const PHP_VER = '7.0'; // Minimum PHP version
 	
 	const WP_VER = '3.1'; // Minimum WordPress version
 	

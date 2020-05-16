@@ -57,7 +57,7 @@ Other options:
 == Changelog ==
 
 = 2.5.2 =
-* Fixed eror in display_inc() function
+* Fixed error in display_inc() function
 
 = 2.5.1 =
 * Updated plugin core, fixed most php warnings and notices
