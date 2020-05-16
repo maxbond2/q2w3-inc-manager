@@ -1,0 +1,487 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Q2W3 Inc Manager v1.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2011-09-25 00:53+0100\n"
+"Last-Translator: Igor F. <igorx81@gmail.com>\n"
+"Language-Team: vazy.biz\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:132
+msgid "PHP version"
+msgstr "versione PHP"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:132
+#: q2w3-inc-manager.php:155
+msgid "is incompatible with this plugin. You need at least version"
+msgstr "non è compatibile con questo plugin. È necessaria almeno la versione"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:155
+msgid "Wordpress version"
+msgstr "versione di Wordpress"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:269
+#: q2w3-inc-manager.php:271
+msgid "Q2W3 Inc Manager Homepage"
+msgstr "Homepage di Q2W3 Inc Manager"
+
+#@ default
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:295
+#: q2w3-table/q2w3_table_classes.php:126
+#: q2w3-table/q2w3_table_classes.php:258
+msgid "Deactivate"
+msgstr "Disattiva"
+
+#@ default
+#: q2w3-inc-manager.php:297
+#: q2w3-table/q2w3_table.php:161
+#: q2w3_inc_manager_widget.php:94
+msgid "Settings"
+msgstr "Impostazioni"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:343
+msgid "Need help? Visit"
+msgstr "Serve aiuto? Visita"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:343
+msgid "Plugin Homepage"
+msgstr "Homepage plugin"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:361
+msgid "deactivate options"
+msgstr "disattiva pzioni"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:373
+msgid "Plugin deactivated!"
+msgstr "Plugin disattivato!"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:385
+msgid "Plugin deactivated, database entries deleted!"
+msgstr "Plugin disattivato, voci del database eliminate!"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:403
+msgid "Deactivate plugin"
+msgstr "Disattiva il plugin"
+
+#@ q2w3-inc-manager
+#: q2w3-inc-manager.php:418
+msgid "Deactivate plugin and delete all settings from database"
+msgstr "Disattiva il plugin ed elimina tutte le impostazioni dal database"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table.php:163
+msgid "Rows per page:"
+msgstr "Righe per pagina:"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table.php:165
+#: q2w3-table/q2w3_table.php:279
+#: q2w3-table/q2w3_table_classes.php:380
+msgid "Apply"
+msgstr "Applica"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table.php:275
+msgid "Bulk Actions"
+msgstr "Azioni di massa"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table.php:285
+#: q2w3-table/q2w3_table.php:637
+msgid "Create New"
+msgstr "Crea nuovo"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table.php:583
+msgid "No data"
+msgstr "Nessun dato"
+
+#@ default
+#: q2w3-table/q2w3_table.php:696
+msgid "Save Changes"
+msgstr "Salva cambiamenti"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table.php:725
+msgid "Delete selected?"
+msgstr "Eliminare selezionati?"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table.php:749
+msgid "Delete?"
+msgstr "Eliminare?"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:84
+#: q2w3-table/q2w3_table_classes.php:130
+msgid "Activate"
+msgstr "Attiva"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:174
+#: q2w3-table/q2w3_table_classes.php:214
+msgid "Delete"
+msgstr "Cancella"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:382
+msgid "Cancel"
+msgstr "Annulla"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:390
+msgid "To select multiple pages or deselect page hold CTRL key"
+msgstr "Per selezionare più pagine o deselezionare una pagina, tieni premuto il tasto CTRL"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:422
+#: q2w3-table/q2w3_table_classes.php:445
+#: q2w3-table/q2w3_table_classes.php:1453
+msgid "Pages"
+msgstr "Pagine"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:449
+msgid "Categories"
+msgstr "Categorie"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:453
+msgid "Tags"
+msgstr "Tag"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:457
+msgid "Posts"
+msgstr "Articoli"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:523
+#: q2w3-table/q2w3_table_classes.php:2254
+msgid "All"
+msgstr "Tutte"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:660
+msgid "from"
+msgstr "da"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:826
+msgid "Yes"
+msgstr "Sì"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:826
+msgid "No"
+msgstr "No"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:1449
+msgid "Select pages"
+msgstr "Seleziona pagine"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:1585
+msgid "Record updated"
+msgstr "Record aggiornato"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:1593
+#: q2w3-table/q2w3_table_classes.php:1613
+#: q2w3-table/q2w3_table_classes.php:1651
+msgid "DB error:"
+msgstr "Errore DB:"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:1607
+msgid "Record inserted"
+msgstr "Record inserito"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:1645
+msgid "Record(s) deleted"
+msgstr "Record aggiornato (i)"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2115
+msgid "Description"
+msgstr "Descrizione"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2119
+msgid "Name/description of the included code. Required field"
+msgstr "Nome/Descrizione descrizione del codice da inserire. Campo obbligatorio"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2124
+msgid "Status"
+msgstr "Stato"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2127
+msgid "Active"
+msgstr "Attivo"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2127
+msgid "Disabled"
+msgstr "Disattivato"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2129
+msgid "Active - code will be displayed, Disabled - code will not be displayed"
+msgstr "Attico: il codice sarà visualizzato, Disattivo: il codice non sarà visualizzato"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2134
+msgid "Location"
+msgstr "Posizione"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "Header"
+msgstr "Testata"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "Footer"
+msgstr "Pié di pagina"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "Widget"
+msgstr "Widget"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "Before page content"
+msgstr "Inizio pagina"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "After page content"
+msgstr "Fine pagina"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "Before post content"
+msgstr "Inizio articolo"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "After post content"
+msgstr "Fine articolo"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "Manual"
+msgstr "Manuale"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2137
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2139
+msgid "Location where to place included code. If Widget selected, go to the Widget admin page to setup widget position. In Manual mode you must insert plugin function directly in to theme file"
+msgstr "Posizione dove verrà inserito il codice. Se selezioni Widget, vai in Aspetto, Widget per impostare la posizione. Nella modalità Manuale, devi inserire il codice del plugin direttamente nel tema"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2144
+msgid "Widget Title"
+msgstr "Titolo Widget"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2153
+msgid "Priority"
+msgstr "Priorità"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2157
+msgid "Determines display order of includes in the same location"
+msgstr "Stabilisce l'ordine di visualizzazione di codici inseriti nella stessa posizione"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2162
+msgid "Include on"
+msgstr "Includi"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2166
+msgid "Pages where code CAN BE shown. Hold CTRL key for multiple select or deselect pages. Required field"
+msgstr "Pagine dove APPARIRÀ il codice. Tieni premuto CTRL per selezioni multiple o deselezionare. Campo obbligatorio"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2171
+msgid "Exclude on"
+msgstr "Escludi"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2175
+msgid "Pages where code CAN NOT be shown. Hold CTRL key for multiple select or deselect pages"
+msgstr "Pagine dove il codice NON APPARIRÀ. Tieni premuto CTRL per selezioni multiple o deselezionare"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2180
+msgid "Hide from admin"
+msgstr "Nascondi all'amministratore"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2184
+msgid "Option to hide code form logged in admin. Useful to exclude admin visits from Google Analitics reports and so on"
+msgstr "Opzione per nascondere il codice quando si è loggati come amministratore. Utile per non includere le visite nelle statistiche Google Analitics e così via"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2189
+msgid "Align"
+msgstr "Allineamento"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2192
+msgid "Align Not Set"
+msgstr "Non impostato"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2192
+msgid "Align Left"
+msgstr "Sinistra"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2192
+msgid "Align Center"
+msgstr "Centro"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2192
+msgid "Align Right"
+msgstr "Destra"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2199
+msgid "Include code"
+msgstr "Inserisci il codice"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2203
+msgid "Included code. Required field. Any type of HTML, CSS, JAVASCRIPT and PHP code. PHP code must begins with php open tag. Align option allows you to wrap code in a div with selected text-align css propertie. Useful for aligning Google AdSense blocks and so on"
+msgstr "Il codice da includere. Campo obbligatorio. Qualsiasi codice HTML, CSS, JAVASCRIPT e PHP. Il codice PHP deve iniziare con il tag di apertura.L'opzione allineamento consente di racchiudere il codice in div con le proprietà selezionate per il text-align. Utile per allineare i blocchi Google AdSense e così via.."
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2218
+msgid "You must input Description field!"
+msgstr "Devi inserire una descrizione nel campo!"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2224
+msgid "Priority number must be integer!"
+msgstr "La priorità deve essere un numero intero!"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2230
+msgid "You must select at least one page where to place included code!"
+msgstr "Devi selezionare almeno una pagina in cui includere il codice!"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2236
+msgid "You must enter included code!"
+msgstr "Devi inserire il codice da includere!"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2254
+msgid "Front page"
+msgstr "Pagina iniziale"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2255
+msgid "WP pages"
+msgstr "Pagine WP"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2255
+msgid "Posts pages"
+msgstr "Pagine Articoli"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2256
+msgid "Date pages"
+msgstr "Pagine Data"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2256
+msgid "Category pages"
+msgstr "Pagine Categoria"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2257
+msgid "Tag pages"
+msgstr "Pagine Tag"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2257
+msgid "Author pages"
+msgstr "Pagine Autore"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2258
+msgid "Attachment pages"
+msgstr "Pagine Allegati"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2258
+msgid "Paged pages"
+msgstr "Pagine Pagina"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2259
+msgid "Search page"
+msgstr "Pagine Ricerca"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2259
+msgid "Preview page"
+msgstr "Pagina Anteprima"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2260
+msgid "Page 404"
+msgstr "Pagina 404"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2276
+msgid "Status changed"
+msgstr "Stato modificato"
+
+#@ q2w3-inc-manager
+#: q2w3-table/q2w3_table_classes.php:2296
+msgid "Copy to clipboard"
+msgstr "Copia"
+
+#@ q2w3-inc-manager
+#: q2w3_inc_manager_widget.php:60
+msgid "Q2W3 Inc Manager Widget"
+msgstr "Widget Q2W3 Inc Manager"
+
